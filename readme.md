@@ -26,3 +26,12 @@ In order to show my knowledge in distributed version control, I use git to contr
     2. term frequency-inverse document score.
     3. make the upper 2 methods switch easily.
 
+## comming features
+1. add pagination to show only a certain number of results on the front page.
+2. Add an Autocompletion Feature.
+3. Personalized Queries. Add a feature to the server such that it stores search queries in a file and uses previous searches in the autocompletion feature.
+4. Make Your Own Web Crawler
+5. Prefix Search
+
+## question
+1. URL Filter
