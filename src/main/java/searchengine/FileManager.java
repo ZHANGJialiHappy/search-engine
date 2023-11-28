@@ -1,6 +1,8 @@
 package searchengine;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -36,7 +38,13 @@ public class FileManager {
         try {
             pages = new ArrayList<>();
             allWords = new HashSet<>();
-            List<String> lines = Files.readAllLines(Paths.get(filename));
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            String line;
+            List<String> lines = new ArrayList<>();
+            while ((line = in.readLine()) != null) {
+                lines.add(line);
+            }
+            in.close();
             String url = "";
             String title = "";
             Map<String, Double> content = new HashMap<>();
