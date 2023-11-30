@@ -25,7 +25,7 @@ class WebServerTest {
         try {
             while (server == null) {
                 try {
-                    server = new WebServer();
+                    server = new WebServer("data/test-file.txt");
                 } catch (BindException e) {
                     // port in use. Try again
                 }

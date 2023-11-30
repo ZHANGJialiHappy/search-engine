@@ -1,6 +1,8 @@
 package searchengine;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
     /**
@@ -11,7 +13,9 @@ public class Main {
      * clarity and organization.
      */
     public static void main(final String... args) throws IOException {
-        new WebServer();
+        String filename = Files.readString(Paths.get("config.txt")).strip();
+
+        new WebServer(filename);
     }
 
 }

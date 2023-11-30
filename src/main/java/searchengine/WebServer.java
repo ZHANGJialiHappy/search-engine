@@ -31,8 +31,8 @@ public class WebServer {
    * @param filename
    * @throws IOException
    */
-  public WebServer() throws IOException {
-    fileManager = new FileManager();
+  public WebServer(String filename) throws IOException {
+    fileManager = new FileManager(filename);
     server = HttpServer.create(new InetSocketAddress(PORT), BACKLOG);
 
     server.createContext("/", io -> respond(io, 200, "text/html", fileManager.getFile("web/index.html")));

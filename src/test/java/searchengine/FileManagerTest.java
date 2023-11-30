@@ -13,11 +13,11 @@ import org.junit.jupiter.api.TestInstance;
 
 public class FileManagerTest {
     private FileManager systemUnderTest;
-    private static final String TEST_FILE_PATH = "config.txt";
+    private static final String TEST_FILE_PATH = "data/test-file.txt";
 
     @BeforeAll
     void setUp() throws IOException {
-        systemUnderTest = new FileManager();
+        systemUnderTest = new FileManager(TEST_FILE_PATH);
     }
 
     @Test
