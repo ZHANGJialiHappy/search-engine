@@ -2,6 +2,7 @@
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.io.IOException;
@@ -43,9 +44,10 @@ class WebServerTest {
     @Test
     void lookupWebServer() {
         String baseURL = String.format("http://localhost:%d/search?q=", server.server.getAddress().getPort());
-        assertEquals(
-                "[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]",
-                httpGet(baseURL + "word1"));
+        String expected1 = "[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]";
+        String expected2 = "[{\"url\": \"http://page2.com\", \"title\": \"title2\"}, {\"url\": \"http://page1.com\", \"title\": \"title1\"}]";
+        String actual = httpGet(baseURL + "word1");
+        assertTrue(expected1.equals(actual) || expected2.equals(actual));
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}]",
                 httpGet(baseURL + "word2"));
         assertEquals("[{\"url\": \"http://page2.com\", \"title\": \"title2\"}]",

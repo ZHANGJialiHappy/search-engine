@@ -8,16 +8,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 public class FileManager {
     private List<Page> pages;
     private String filename;
     private Map<String, Map<Page, Integer>> invertedIndex;
-    private Set<String> allWords;
 
     public FileManager() throws IOException {
         filename = Files.readString(Paths.get("config.txt")).strip();
@@ -37,7 +35,6 @@ public class FileManager {
     private void readFile() throws IOException {
         try {
             pages = new ArrayList<>();
-            allWords = new HashSet<>();
             BufferedReader in = new BufferedReader(new FileReader(filename));
             String line;
             List<String> lines = new ArrayList<>();
@@ -69,7 +66,6 @@ public class FileManager {
                         occurrencesNum = content.get(word) + 1;
                     }
                     content.put(word, occurrencesNum);
-                    allWords.add(word);
                 }
             }
             if (title != "" && !content.isEmpty()) {
@@ -83,13 +79,17 @@ public class FileManager {
 
     private void createdInvertedIndex() {
         invertedIndex = new HashMap<>();
-        for (String word : allWords) {
-            Map<Page, Integer> indexPages = new HashMap<>();
-            for (Page page : pages) {
-                if (page.getContent().containsKey(word)) {
-                    indexPages.put(page, page.getContent().get(word));
+        for (Page page : pages) {
+            Map<String, Integer> content = page.getContent();
+            for (Entry<String, Integer> entry : content.entrySet()) {
+                String word = entry.getKey();
+                Integer occurrenceNum = entry.getValue();
+                Map<Page, Integer> indexPage = new HashMap<>();
+                if (invertedIndex.containsKey(word)) {
+                    indexPage = invertedIndex.get(word);
                 }
-                invertedIndex.put(word, indexPages);
+                indexPage.put(page, occurrenceNum);
+                invertedIndex.put(word, indexPage);
             }
         }
     }
