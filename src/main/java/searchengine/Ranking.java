@@ -25,7 +25,7 @@ public class Ranking {
             for (String[] wordsWithAnd : searchWords) {
                 int occurrenceNum = 0;
                 for (int i = 0; i < wordsWithAnd.length; i++) {
-                    Map<String, Double> content = page.getContent();
+                    Map<String, Integer> content = page.getContent();
                     if (content.containsKey(wordsWithAnd[i])) {
                         occurrenceNum += content.get(wordsWithAnd[i]);
                     }

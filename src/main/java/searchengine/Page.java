@@ -5,9 +5,9 @@ import java.util.Map;
 public class Page {
     private String url;
     private String title;
-    private Map<String, Double> content;
+    private Map<String, Integer> content;
 
-    public Page(String url, String title, Map<String, Double> content) {
+    public Page(String url, String title, Map<String, Integer> content) {
         this.url = url;
         this.title = title;
         this.content = content;
@@ -21,7 +21,7 @@ public class Page {
         return title;
     }
 
-    public Map<String, Double> getContent() {
+    public Map<String, Integer> getContent() {
         return content;
     }
 
@@ -33,7 +33,7 @@ public class Page {
         this.title = title;
     }
 
-    public void setContent(Map<String, Double> content) {
+    public void setContent(Map<String, Integer> content) {
         this.content = content;
     }
 
