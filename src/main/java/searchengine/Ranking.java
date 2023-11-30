@@ -32,8 +32,8 @@ public class Ranking {
                 }
                 occurrenceNumList.add(occurrenceNum);
             }
-            double occurrenceSum = 0.0d;
-            for (double d : page.getContent().values()) {
+            Integer occurrenceSum = 0;
+            for (Integer d : page.getContent().values()) {
                 occurrenceSum += d;
             }
             double score = frequencyInverse ? Collections.max(occurrenceNumList) / occurrenceSum
