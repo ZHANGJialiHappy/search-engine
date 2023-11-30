@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class SearchService {
 
-    public List<String> handleRequest(String searchTerm, Map<String, Map<Page, Double>> invertedIndex) {
+    public List<String> handleRequest(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex) {
         var response = new ArrayList<String>();
         var searchList = handleSearchTerm(searchTerm.toLowerCase(), invertedIndex);
         for (Page page : searchList) {
@@ -20,7 +20,7 @@ public class SearchService {
         return response;
     }
 
-    private List<Page> handleSearchTerm(String searchTerm, Map<String, Map<Page, Double>> invertedIndex) {
+    private List<Page> handleSearchTerm(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex) {
         String decodedSearchTerm = "";
         try {
             decodedSearchTerm = URLDecoder.decode(searchTerm, "UTF-8");
@@ -45,7 +45,7 @@ public class SearchService {
         return rankedPages.rankPages(wordInUnion, searchWords);
     }
 
-    private Set<Page> getIntersection(String[] wordsWithAnd, Map<String, Map<Page, Double>> invertedIndex) {
+    private Set<Page> getIntersection(String[] wordsWithAnd, Map<String, Map<Page, Integer>> invertedIndex) {
         Set<Page> intersectionPages = new HashSet<>(search(wordsWithAnd[0], invertedIndex));
         for (int i = 0; i < wordsWithAnd.length; i++) {
             Set<Page> subPages = search(wordsWithAnd[i], invertedIndex);
@@ -54,7 +54,7 @@ public class SearchService {
         return intersectionPages;
     }
 
-    private Set<Page> search(String searchWord, Map<String, Map<Page, Double>> invertedIndex) {
+    private Set<Page> search(String searchWord, Map<String, Map<Page, Integer>> invertedIndex) {
         Set<Page> result = new HashSet<>();
         if (!invertedIndex.containsKey(searchWord)) {
             return result;

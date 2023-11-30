@@ -16,7 +16,7 @@ import java.util.Set;
 public class FileManager {
     private List<Page> pages;
     private String filename;
-    private Map<String, Map<Page, Double>> invertedIndex;
+    private Map<String, Map<Page, Integer>> invertedIndex;
     private Set<String> allWords;
 
     public FileManager() throws IOException {
@@ -47,7 +47,7 @@ public class FileManager {
             in.close();
             String url = "";
             String title = "";
-            Map<String, Double> content = new HashMap<>();
+            Map<String, Integer> content = new HashMap<>();
 
             int pageLine = 0;
             for (int i = 0; i < lines.size(); i++) {
@@ -63,7 +63,7 @@ public class FileManager {
                 } else if (i == pageLine + 1) {
                     title = lines.get(i);
                 } else if (i > pageLine + 1) {
-                    double occurrencesNum = 1;
+                    Integer occurrencesNum = 1;
                     String word = lines.get(i).toLowerCase();
                     if (content.containsKey(word)) {
                         occurrencesNum = content.get(word) + 1;
@@ -84,7 +84,7 @@ public class FileManager {
     private void createdInvertedIndex() {
         invertedIndex = new HashMap<>();
         for (String word : allWords) {
-            Map<Page, Double> indexPages = new HashMap<>();
+            Map<Page, Integer> indexPages = new HashMap<>();
             for (Page page : pages) {
                 if (page.getContent().containsKey(word)) {
                     indexPages.put(page, page.getContent().get(word));
@@ -94,7 +94,7 @@ public class FileManager {
         }
     }
 
-    public Map<String, Map<Page, Double>> getInvertedIndex() {
+    public Map<String, Map<Page, Integer>> getInvertedIndex() {
         return invertedIndex;
     }
 }
