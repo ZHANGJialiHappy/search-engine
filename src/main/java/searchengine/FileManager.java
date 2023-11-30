@@ -14,12 +14,10 @@ import java.util.Map.Entry;
 
 public class FileManager {
     private List<Page> pages;
-    private String filename;
     private Map<String, Map<Page, Integer>> invertedIndex;
 
-    public FileManager() throws IOException {
-        filename = Files.readString(Paths.get("config.txt")).strip();
-        readFile();
+    public FileManager(String filename) throws IOException {
+        readFile(filename);
         createdInvertedIndex();
     }
 
@@ -32,7 +30,7 @@ public class FileManager {
         }
     }
 
-    private void readFile() throws IOException {
+    private void readFile(String filename) throws IOException {
         try {
             pages = new ArrayList<>();
             BufferedReader in = new BufferedReader(new FileReader(filename));
