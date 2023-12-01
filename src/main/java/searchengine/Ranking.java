@@ -11,12 +11,12 @@ import java.util.Set;
 public class Ranking {
     private Map<Page, Double> pagesWithScore;
     private List<Page> sortedPages;
-    private boolean frequencyInverse;
+    private boolean isFrequencyInverse;
 
     public Ranking() {
         pagesWithScore = new HashMap<>();
         sortedPages = new ArrayList<>();
-        frequencyInverse = true;
+        isFrequencyInverse = true;
     }
 
     public List<Page> rankPages(Set<Page> wordInUnion, List<String[]> searchWords) {
@@ -36,7 +36,7 @@ public class Ranking {
             for (Integer d : page.getContent().values()) {
                 occurrenceSum += d;
             }
-            double score = frequencyInverse ? Collections.max(occurrenceNumList) / occurrenceSum
+            double score = isFrequencyInverse ? Collections.max(occurrenceNumList) / occurrenceSum
                     : Collections.max(occurrenceNumList);
             pagesWithScore.put(page, score);
         }
@@ -62,4 +62,7 @@ public class Ranking {
         return sortedPages;
     }
 
+    public boolean getIsFrequencyInverse() {
+        return isFrequencyInverse;
+    }
 }
