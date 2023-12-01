@@ -16,7 +16,7 @@ public class Ranking {
     public Ranking() {
         pagesWithScore = new HashMap<>();
         sortedPages = new ArrayList<>();
-        isFrequencyInverse = true;
+        isFrequencyInverse = false;
     }
 
     public List<Page> rankPages(Set<Page> wordInUnion, List<String[]> searchWords) {

@@ -52,8 +52,14 @@ public class SearchServiceTest {
     @Test
     void searchTest_returnList() {
         List<String> expected = new ArrayList<>();
-        expected.add("{\"url\": \"http://page1.com\", \"title\": \"title1\"}");
-        expected.add("{\"url\": \"http://page2.com\", \"title\": \"title2\"}");
+        if (new Ranking().getIsFrequencyInverse()) {
+            expected.add("{\"url\": \"http://page2.com\", \"title\": \"title2\"}");
+            expected.add("{\"url\": \"http://page1.com\", \"title\": \"title1\"}");
+        } else {
+            expected.add("{\"url\": \"http://page1.com\", \"title\": \"title1\"}");
+            expected.add("{\"url\": \"http://page2.com\", \"title\": \"title2\"}");
+        }
+
         List<String> actual = new ArrayList<>(systemUnderTest.handleRequest(searchTerm, invertedIndex));
         assertEquals(expected, actual);
     }
