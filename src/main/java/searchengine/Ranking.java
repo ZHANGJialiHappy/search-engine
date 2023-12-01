@@ -19,8 +19,8 @@ public class Ranking {
         isFrequencyInverse = false;
     }
 
-    public List<Page> rankPages(Set<Page> wordInUnion, List<String[]> searchWords) {
-        for (Page page : wordInUnion) {
+    public List<Page> rankPages(Set<Page> unionPages, List<String[]> searchWords) {
+        for (Page page : unionPages) {
             List<Integer> occurrenceNumList = new ArrayList<>();
             for (String[] wordsWithAnd : searchWords) {
                 int occurrenceNum = 0;
