@@ -33,16 +33,16 @@ public class SearchService {
             searchWords.add(wordsSplitedByOr[i].split(" "));
         }
 
-        Set<Page> wordInUnion = new HashSet<>();
+        Set<Page> unionPages = new HashSet<>();
         for (String[] wordsWithAnd : searchWords) {
             Set<Page> intersectionPages = getIntersection(wordsWithAnd, invertedIndex);
             for (Page page : intersectionPages) {
-                wordInUnion.add(page);
+                unionPages.add(page);
             }
         }
         Ranking rankedPages = new Ranking();
 
-        return rankedPages.rankPages(wordInUnion, searchWords);
+        return rankedPages.rankPages(unionPages, searchWords);
     }
 
     private Set<Page> getIntersection(String[] wordsWithAnd, Map<String, Map<Page, Integer>> invertedIndex) {
