@@ -38,9 +38,7 @@ public class SearchService {
         Set<Page> unionPages = new HashSet<>();
         for (String[] wordsWithAnd : searchWords) {
             Set<Page> intersectionPages = getIntersection(wordsWithAnd, invertedIndex);
-            for (Page page : intersectionPages) {
-                unionPages.add(page);
-            }
+            unionPages.addAll(intersectionPages);
         }
         Ranking rankedPages = new Ranking();
 
