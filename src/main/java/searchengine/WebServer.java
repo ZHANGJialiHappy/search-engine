@@ -35,14 +35,14 @@ public class WebServer {
     fileManager = new FileManager(filename);
     server = HttpServer.create(new InetSocketAddress(PORT), BACKLOG);
 
-    server.createContext("/", io -> respond(io, 200, "text/html", fileManager.getFile("web/index.html")));
+    server.createContext("/", io -> respond(io, "text/html", fileManager.getFile("web/index.html")));
     server.createContext("/search", io -> search(io));
     server.createContext(
-        "/favicon.ico", io -> respond(io, 200, "image/x-icon", fileManager.getFile("web/favicon.ico")));
+        "/favicon.ico", io -> respond(io, "image/x-icon", fileManager.getFile("web/favicon.ico")));
     server.createContext(
-        "/code.js", io -> respond(io, 200, "application/javascript", fileManager.getFile("web/code.js")));
+        "/code.js", io -> respond(io, "application/javascript", fileManager.getFile("web/code.js")));
     server.createContext(
-        "/style.css", io -> respond(io, 200, "text/css", fileManager.getFile("web/style.css")));
+        "/style.css", io -> respond(io, "text/css", fileManager.getFile("web/style.css")));
     server.start();
     String msg = " WebServer running on http://localhost:" + PORT + " ";
     System.out.println("╭" + "─".repeat(msg.length()) + "╮");
@@ -59,10 +59,10 @@ public class WebServer {
     var bytes = new SearchService()
         .handleRequest(searchTerm, fileManager.getInvertedIndex(), fileManager.getQuantityOfPages()).toString()
         .getBytes(CHARSET);
-    respond(io, 200, "application/json", bytes);
+    respond(io, "application/json", bytes);
   }
 
-  void respond(HttpExchange io, int code, String mime, byte[] response) {
+  void respond(HttpExchange io, String mime, byte[] response) {
     try {
       io.getResponseHeaders()
           .set("Content-Type", String.format("%s; charset=%s", mime, CHARSET.name()));
