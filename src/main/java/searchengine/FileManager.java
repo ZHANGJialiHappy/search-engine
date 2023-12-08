@@ -95,4 +95,8 @@ public class FileManager {
     public Map<String, Map<Page, Integer>> getInvertedIndex() {
         return invertedIndex;
     }
+
+    public int getQuantityOfPages() {
+        return pages.size();
+    }
 }

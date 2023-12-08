@@ -10,9 +10,10 @@ import java.util.Set;
 
 public class SearchService {
 
-    public List<String> handleRequest(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex) {
+    public List<String> handleRequest(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex,
+            int quantityOfPages) {
         var response = new ArrayList<String>();
-        var searchList = handleSearchTerm(searchTerm.toLowerCase(), invertedIndex);
+        var searchList = handleSearchTerm(searchTerm.toLowerCase(), invertedIndex, quantityOfPages);
         for (Page page : searchList) {
             response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
@@ -20,7 +21,8 @@ public class SearchService {
         return response;
     }
 
-    private List<Page> handleSearchTerm(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex) {
+    private List<Page> handleSearchTerm(String searchTerm, Map<String, Map<Page, Integer>> invertedIndex,
+            int quantityOfPages) {
         String decodedSearchTerm = "";
         try {
             decodedSearchTerm = URLDecoder.decode(searchTerm, "UTF-8");
@@ -42,7 +44,7 @@ public class SearchService {
         }
         Ranking rankedPages = new Ranking();
 
-        return rankedPages.rankPages(unionPages, searchWords);
+        return rankedPages.rankPages(unionPages, searchWords, quantityOfPages, invertedIndex);
     }
 
     private Set<Page> getIntersection(String[] wordsWithAnd, Map<String, Map<Page, Integer>> invertedIndex) {

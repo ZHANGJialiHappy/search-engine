@@ -8,41 +8,72 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * Ranking class ranks a hashset of pages by scores, there're 2 ways to
+ * calculate pages' scores.
+ */
 public class Ranking {
     private Map<Page, Double> pagesWithScore;
     private List<Page> sortedPages;
-    private boolean isFrequencyInverse;
+    private static boolean isFrequencyInverse = true;
 
     public Ranking() {
         pagesWithScore = new HashMap<>();
         sortedPages = new ArrayList<>();
-        isFrequencyInverse = false;
     }
 
-    public List<Page> rankPages(Set<Page> unionPages, List<String[]> searchWords) {
+    /**
+     * Ranks the pages according to the number of occurences of a specific search
+     * word
+     *
+     * @param unionPages  the set of pages which are being ranked
+     * @param searchWords the searchWords that are being counted on the number of
+     *                    occurences
+     *
+     * @return A set of ranked pages
+     */
+    public List<Page> rankPages(Set<Page> unionPages, List<String[]> searchWords, int quantityOfPages,
+            Map<String, Map<Page, Integer>> invertedIndex) {
         for (Page page : unionPages) {
-            List<Integer> occurrenceNumList = new ArrayList<>();
-            for (String[] wordsWithAnd : searchWords) {
-                int occurrenceNum = 0;
-                for (int i = 0; i < wordsWithAnd.length; i++) {
-                    Map<String, Integer> content = page.getContent();
-                    if (content.containsKey(wordsWithAnd[i])) {
-                        occurrenceNum += content.get(wordsWithAnd[i]);
-                    }
-                }
-                occurrenceNumList.add(occurrenceNum);
-            }
-            Integer occurrenceSum = 0;
-            for (Integer d : page.getContent().values()) {
-                occurrenceSum += d;
-            }
-            double score = isFrequencyInverse ? Collections.max(occurrenceNumList) / occurrenceSum
-                    : Collections.max(occurrenceNumList);
+            List<Double> scoreList = getScoreList(searchWords, page, quantityOfPages, invertedIndex);
+
+            double score = (double) Collections.max(scoreList);
             pagesWithScore.put(page, score);
         }
         return sorteMap();
     }
 
+    private static List<Double> getScoreList(List<String[]> searchWords, Page page, int quantityOfPages,
+            Map<String, Map<Page, Integer>> invertedIndex) {
+        List<Double> scoreList = new ArrayList<>();
+        Integer occurrenceSum = 0;
+        for (Integer d : page.getContent().values()) {
+            occurrenceSum += d;
+        }
+        for (String[] wordsWithAnd : searchWords) {
+            Double scorePerAnd = 0.0;
+            for (int i = 0; i < wordsWithAnd.length; i++) {
+                Map<String, Integer> content = page.getContent();
+                if (content.containsKey(wordsWithAnd[i])) {
+                    if (isFrequencyInverse) {
+                        int quantityOfPagePerWord = invertedIndex.get(wordsWithAnd[i]).size();
+                        scorePerAnd += (double) content.get(wordsWithAnd[i]) / occurrenceSum
+                                * Math.log(quantityOfPages / quantityOfPagePerWord);
+                    } else {
+                        scorePerAnd += (double) content.get(wordsWithAnd[i]) / occurrenceSum;
+                    }
+                }
+            }
+            scoreList.add(scorePerAnd);
+        }
+        return scoreList;
+    }
+
+    /**
+     * sort hashmap
+     * 
+     * @return Returns list of sorted pages
+     */
     private List<Page> sorteMap() {
         List<Double> list = new ArrayList<>();
         for (Entry<Page, Double> entry : pagesWithScore.entrySet()) {
@@ -65,4 +96,5 @@ public class Ranking {
     public boolean getIsFrequencyInverse() {
         return isFrequencyInverse;
     }
+
 }

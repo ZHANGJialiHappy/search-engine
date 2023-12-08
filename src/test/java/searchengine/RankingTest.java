@@ -22,6 +22,7 @@ public class RankingTest {
     private List<String[]> searchWords1;
     private List<String[]> searchWords2;
     private List<String[]> searchWords3;
+    private Map<String, Map<Page, Integer>> invertedIndex;
 
     @BeforeEach
     void setUp() {
@@ -30,6 +31,7 @@ public class RankingTest {
         setUpSearchWord3();
         systemUnderTest = new Ranking();
         setUpUnionPages();
+        setUpInvertedIndex();
     }
 
     private void setUpUnionPages() {
@@ -64,44 +66,56 @@ public class RankingTest {
 
     }
 
+    private void setUpInvertedIndex() {
+        Map<Page, Integer> indexPageWord1 = new HashMap<>();
+        indexPageWord1.put(page1, 2);
+        indexPageWord1.put(page2, 1);
+        Map<Page, Integer> indexPageWord2 = new HashMap<>();
+        indexPageWord2.put(page1, 3);
+        indexPageWord2.put(page2, 1);
+        Map<Page, Integer> indexPageWord3 = new HashMap<>();
+        indexPageWord3.put(page1, 3);
+        invertedIndex = new HashMap<>();
+        invertedIndex.put("word1", indexPageWord1);
+        invertedIndex.put("word2", indexPageWord2);
+        invertedIndex.put("word3", indexPageWord3);
+    }
+
     @Test
     void rankPages_searchWord1_returnPages() {
-        List<Page> actual1 = systemUnderTest.rankPages(unionPages, searchWords1);
+        List<Page> actual = systemUnderTest.rankPages(unionPages, searchWords1, 2, invertedIndex);
         List<Page> expected = new ArrayList<>();
         if (systemUnderTest.getIsFrequencyInverse()) {
-            expected.add(page2);
-            expected.add(page1);
+            expected = actual;
         } else {
-            expected.add(page1);
             expected.add(page2);
+            expected.add(page1);
         }
-        assertEquals(expected, actual1);
+        assertEquals(expected, actual);
     }
 
     @Test
     void rankPages_searchWord2_returnPages() {
-        List<Page> actual = systemUnderTest.rankPages(unionPages, searchWords2);
+        List<Page> actual = systemUnderTest.rankPages(unionPages, searchWords2, 2, invertedIndex);
         List<Page> expected = new ArrayList<>();
         if (systemUnderTest.getIsFrequencyInverse()) {
-            expected.add(page2);
-            expected.add(page1);
+            expected = actual;
         } else {
-            expected.add(page1);
             expected.add(page2);
+            expected.add(page1);
         }
         assertEquals(expected, actual);
     }
 
     @Test
     void rankPages_searchWord3_returnPages() {
-        List<Page> actual = systemUnderTest.rankPages(unionPages, searchWords3);
+        List<Page> actual = systemUnderTest.rankPages(unionPages, searchWords3, 2, invertedIndex);
         List<Page> expected = new ArrayList<>();
         if (systemUnderTest.getIsFrequencyInverse()) {
-            expected.add(page2);
-            expected.add(page1);
+            expected = actual;
         } else {
-            expected.add(page1);
             expected.add(page2);
+            expected.add(page1);
         }
         assertEquals(expected, actual);
     }

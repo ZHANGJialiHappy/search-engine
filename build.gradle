@@ -73,6 +73,8 @@ task buildConf() {
 run {
     dependsOn buildConf
     mainClassName = 'searchengine.Main'
+    jvmArgs = ["-Xmx8g"]
+
 }
 tasks.named('test') {
     // Use junit platform for unit tests.

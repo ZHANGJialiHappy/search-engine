@@ -56,7 +56,8 @@ public class WebServer {
   void search(HttpExchange io) {
     var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
 
-    var bytes = new SearchService().handleRequest(searchTerm, fileManager.getInvertedIndex()).toString()
+    var bytes = new SearchService()
+        .handleRequest(searchTerm, fileManager.getInvertedIndex(), fileManager.getQuantityOfPages()).toString()
         .getBytes(CHARSET);
     respond(io, 200, "application/json", bytes);
   }
