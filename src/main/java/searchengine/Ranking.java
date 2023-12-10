@@ -51,14 +51,14 @@ public class Ranking {
             occurrenceSum += d;
         }
         for (String[] wordsWithAnd : searchWords) {
-            Double scorePerAnd = 0.0;
+            double scorePerAnd = 0.0;
             for (int i = 0; i < wordsWithAnd.length; i++) {
                 Map<String, Integer> content = page.getContent();
                 if (content.containsKey(wordsWithAnd[i])) {
                     if (isFrequencyInverse) {
                         int quantityOfPagePerWord = invertedIndex.get(wordsWithAnd[i]).size();
                         scorePerAnd += (double) content.get(wordsWithAnd[i]) / occurrenceSum
-                                * Math.log(quantityOfPages / quantityOfPagePerWord);
+                                * Math.log((double) (quantityOfPages / quantityOfPagePerWord));
                     } else {
                         scorePerAnd += (double) content.get(wordsWithAnd[i]) / occurrenceSum;
                     }
