@@ -61,7 +61,7 @@ public class FileManager {
                     Integer occurrencesNum = 1;
                     String word = lines.get(i).toLowerCase();
                     if (content.containsKey(word)) {
-                        occurrencesNum = content.get(word) + 1;
+                        occurrencesNum += content.get(word);
                     }
                     content.put(word, occurrencesNum);
                 }

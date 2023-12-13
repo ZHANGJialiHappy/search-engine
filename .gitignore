@@ -3,6 +3,8 @@
 !src/**/build/
 config.txt
 data/
+*.class
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
