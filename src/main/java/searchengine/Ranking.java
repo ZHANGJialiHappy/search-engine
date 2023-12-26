@@ -15,7 +15,7 @@ import java.util.Set;
 public class Ranking {
     private Map<Page, Double> pagesWithScore;
     private List<Page> sortedPages;
-    private static boolean isFrequencyInverse = true;
+    private static boolean isFrequencyInverse = false;
 
     public Ranking() {
         pagesWithScore = new HashMap<>();
@@ -81,8 +81,7 @@ public class Ranking {
             if (!list.contains(score))
                 list.add(score);
         }
-        Collections.sort(list);
-        Collections.reverse(list);
+        list.sort((s1, s2) -> s2.compareTo(s1));
         for (double num : list) {
             for (Entry<Page, Double> entry : pagesWithScore.entrySet()) {
                 if (entry.getValue().equals(num)) {
