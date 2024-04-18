@@ -13,7 +13,7 @@ In order to show my knowledge in distributed version control, I use git to contr
 3. gradle javadoc     build/docs/javadoc/index.html
 4. gradle test
 
-## task
+## what I did
 1. Class design and feature set
 2. Improve the data structures
     1. Change data structure, improve performance. Make the service fast with large size of data.
@@ -21,7 +21,7 @@ In order to show my knowledge in distributed version control, I use git to contr
     1. faster Queries using an [InvertedIndex](https://en.wikipedia.org/wiki/Inverted_index).
     2. support OR query.
     3. support multiple words query.
-6. Ranking Algorithms with 2 ways
+4. Ranking Algorithms with 2 ways
     1. term frequency score.
     2. term [frequency-inverse](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) document score.
     3. make the upper 2 methods switch easily.
