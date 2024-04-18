@@ -18,12 +18,12 @@ In order to show my knowledge in distributed version control, I use git to contr
 2. Improve the data structures
     1. Change data structure, improve performance. Make the service fast with large size of data.
 3. Add query functionality 
-    1. faster Queries using an [InvertedIndex](https://en.wikipedia.org/wiki/Inverted_index){:target="_blank"}.
+    1. faster Queries using an [InvertedIndex](https://en.wikipedia.org/wiki/Inverted_index).
     2. support OR query.
     3. support multiple words query.
 6. Ranking Algorithms with 2 ways
     1. term frequency score.
-    2. term frequency-inverse document score.
+    2. term [frequency-inverse](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) document score.
     3. make the upper 2 methods switch easily.
 
 ## comming features
