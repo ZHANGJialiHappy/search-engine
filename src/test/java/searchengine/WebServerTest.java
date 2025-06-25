@@ -15,29 +15,57 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class WebServerTest {
     WebServer server = null;
 
+    // @BeforeAll
+    // void setUp() {
+    // try {
+    // while (server == null) {
+    // try {
+    // server = new WebServer("data/test-file.txt");
+    // } catch (BindException e) {
+    // // port in use. Try again
+    // }
+    // }
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
+
+    // @AfterAll
+    // void tearDown() {
+    // server.server.stop(0);
+    // server = null;
+    // }
+
     @BeforeAll
     void setUp() {
-        try {
-            while (server == null) {
-                try {
-                    server = new WebServer("data/test-file.txt");
-                } catch (BindException e) {
-                    // port in use. Try again
-                }
+        while (server == null) {
+            try {
+                server = new WebServer("data/test-file.txt");
+            } catch (BindException e) {
+                // port in use. Try again
+            } catch (IOException e) {
+                // Any other IO problem — log and break
+                e.printStackTrace();
+                break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+
+        if (server == null) {
+            throw new IllegalStateException("WebServer failed to start.");
         }
     }
 
     @AfterAll
     void tearDown() {
-        server.server.stop(0);
+        if (server != null && server.server != null) {
+            server.server.stop(0);
+        }
         server = null;
     }
 
